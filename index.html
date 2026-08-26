@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="light" />
+<title>Khalsa School Tabla Class</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="app-shell">
+  <header class="topbar">
+    <button class="brand" id="brandBtn" aria-label="Go to Khalsa School Tabla Class home"><span class="logo" aria-hidden="true"></span><span><strong>Khalsa School Tabla</strong><small>Kaiydas + Syllabus</small></span></button>
+    <div class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg><input id="searchInput" type="search" placeholder="Search papers, taals, music, BPM…" autocomplete="off" /></div>
+    <div class="top-actions">
+      <button class="btn homework-top" id="homeworkBtn" title="Homework"><svg viewBox="0 0 24 24"><path d="M9 5h6M9 3h6v4H9zM6 5H5a2 2 0 0 0-2 2v12h18V7a2 2 0 0 0-2-2h-1M8 13l2 2 5-5"></path></svg><span class="homework-label">Homework</span><span class="homework-count" id="homeworkCount">0</span></button>
+      <button class="btn music-top" id="musicBtn" title="Practice Music"><svg viewBox="0 0 24 24"><path d="M9 18V5l11-2v13M9 9l11-2M6 20a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm11-1a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"></path></svg><span class="music-label">Music</span></button>
+      <button class="btn backup" id="backupBtn" title="Back up library"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 19h14"></path></svg><span class="backup-label">Backup</span></button>
+      <button class="btn primary" id="addPaperBtn"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg><span class="add-label">Add paper</span></button>
+    </div>
+  </header>
+  <main class="main" id="mainView" aria-live="polite"></main>
+</div>
+
+<div class="viewer" id="viewer" aria-hidden="true">
+  <div class="viewer-bar">
+    <button class="vbtn" id="closeViewer" aria-label="Close"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"></path></svg></button>
+    <div class="viewer-title"><strong id="viewerTitle"></strong><span>Original class paper</span></div>
+    <div class="viewer-actions">
+      <button class="vbtn textual" id="viewerHomework" aria-label="Toggle Homework"><svg viewBox="0 0 24 24"><path d="M9 5h6M9 3h6v4H9zM6 5H5a2 2 0 0 0-2 2v12h18V7a2 2 0 0 0-2-2h-1M8 13l2 2 5-5"></path></svg><span class="learn-label">Homework</span></button>
+      <button class="vbtn textual" id="viewerEdit" aria-label="Edit paper"><svg viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"></path></svg><span class="edit-label">Edit</span></button>
+      <button class="vbtn" id="rotateLeft" aria-label="Rotate left"><svg viewBox="0 0 24 24"><path d="M4 7v5h5M20 17a8 8 0 0 0-14-10L4 12"></path></svg></button>
+      <button class="vbtn" id="rotateRight" aria-label="Rotate right"><svg viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17A8 8 0 0 1 18 7l2 5"></path></svg></button>
+      <button class="vbtn" id="zoomOut" aria-label="Zoom out">−</button>
+      <button class="vbtn zoom" id="zoomReset" aria-label="Reset zoom">100%</button>
+      <button class="vbtn" id="zoomIn" aria-label="Zoom in">+</button>
+    </div>
+  </div>
+  <div class="viewer-stage" id="viewerStage"><img id="viewerImage" alt="Original tabla class paper" draggable="false" /></div>
+</div>
+
+<div class="modal" id="paperModal" role="dialog" aria-modal="true" aria-labelledby="paperModalTitle">
+  <div class="modal-card">
+    <div class="modal-head"><div><h2 id="paperModalTitle">Add paper</h2><p>Choose where it belongs. The original image is what opens.</p></div><button class="close-modal" data-close="paperModal" aria-label="Close">×</button></div>
+    <form class="form" id="paperForm">
+      <input type="hidden" id="paperId" />
+      <div class="field"><label for="paperTitle">Paper name</label><input id="paperTitle" placeholder="e.g. Kaiyda #5" /></div>
+      <div class="form-row">
+        <div class="field"><label for="paperTaal">Taal</label><select id="paperTaal"></select></div>
+        <div class="field"><label for="paperCategory">Section</label><input id="paperCategory" list="categorySuggestions" placeholder="Kaiydas, Laggis, Theka…" /></div>
+      </div>
+      <datalist id="categorySuggestions"></datalist>
+      <div class="field"><label>Original paper image</label><div class="file-drop"><div class="file-preview" id="filePreview"><span>No image</span></div><div class="file-copy"><strong id="fileLabel">Choose a photo</strong><p id="fileHint">JPG, PNG, HEIC-converted image, or another browser-readable image.</p><input id="paperFile" type="file" accept="image/*" /></div></div></div>
+      <div class="form-error" id="paperError" aria-live="polite"></div>
+      <div class="modal-actions"><button type="button" class="btn danger hidden" id="deletePaperBtn">Delete paper</button><span class="spacer"></span><button type="button" class="btn" data-close="paperModal">Cancel</button><button type="submit" class="btn primary">Save paper</button></div>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="taalModal" role="dialog" aria-modal="true" aria-labelledby="taalModalTitle">
+  <div class="modal-card">
+    <div class="modal-head"><div><h2 id="taalModalTitle">New taal</h2><p>Create or rename a section whenever you want.</p></div><button class="close-modal" data-close="taalModal" aria-label="Close">×</button></div>
+    <form class="form" id="taalForm"><input type="hidden" id="oldTaalName" /><div class="field"><label for="taalName">Taal name</label><input id="taalName" placeholder="e.g. Dhamar" required /></div><div class="form-error" id="taalError"></div><div class="modal-actions"><button type="button" class="btn danger hidden" id="deleteTaalBtn">Delete empty taal</button><span class="spacer"></span><button type="button" class="btn" data-close="taalModal">Cancel</button><button type="submit" class="btn primary">Save taal</button></div></form>
+  </div>
+</div>
+
+<div class="modal" id="backupModal" role="dialog" aria-modal="true" aria-labelledby="backupTitle">
+  <div class="modal-card">
+    <div class="modal-head"><div><h2 id="backupTitle">Back up your library</h2><p>Your edits are saved in this browser. A backup lets you move them elsewhere.</p></div><button class="close-modal" data-close="backupModal" aria-label="Close">×</button></div>
+    <div class="form"><div class="helper">Added papers and edits are stored locally in your browser using IndexedDB. Export a backup before clearing browser data or moving to another device.</div><div class="backup-grid"><div class="backup-card"><strong>Export</strong><p>Download one JSON backup containing your taals, papers, homework marks, images, and practice music links.</p><button class="btn" id="exportBtn">Export backup</button></div><div class="backup-card"><strong>Import</strong><p>Restore a backup. Importing replaces the library currently saved in this browser.</p><input id="importFile" type="file" accept="application/json,.json" /></div></div></div>
+  </div>
+</div>
+
+
+<div class="modal" id="trackModal" role="dialog" aria-modal="true" aria-labelledby="trackModalTitle">
+  <div class="modal-card">
+    <div class="modal-head"><div><h2 id="trackModalTitle">Add practice music</h2><p>Save a link and BPM so your practice tracks stay easy to find.</p></div><button class="close-modal" data-close="trackModal" aria-label="Close">×</button></div>
+    <form class="form" id="trackForm">
+      <input type="hidden" id="trackId" />
+      <div class="field"><label for="trackTitle">Track name</label><input id="trackTitle" placeholder="e.g. Teentaal lehra — slow" required /></div>
+      <div class="field"><label for="trackUrl">Music link</label><input id="trackUrl" type="url" inputmode="url" placeholder="https://youtube.com/..." required /></div>
+      <div class="track-form-row">
+        <div class="field"><label for="trackTaal">Taal</label><select id="trackTaal"></select></div>
+        <div class="field"><label for="trackBpm">BPM</label><input id="trackBpm" type="number" min="20" max="300" step="1" inputmode="numeric" placeholder="80" /></div>
+      </div>
+      <div class="field"><label for="trackType">Type</label><select id="trackType"><option>Background music</option><option>Lehra</option><option>Metronome</option><option>Other</option></select></div>
+      <div class="form-error" id="trackError" aria-live="polite"></div>
+      <div class="modal-actions"><button type="button" class="btn danger hidden" id="deleteTrackBtn">Delete link</button><span class="spacer"></span><button type="button" class="btn" data-close="trackModal">Cancel</button><button type="submit" class="btn primary">Save link</button></div>
+    </form>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="app.js" defer></script>
+</body>
+</html>
