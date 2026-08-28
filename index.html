@@ -15,8 +15,9 @@
     <div class="top-actions">
       <button class="btn homework-top" id="homeworkBtn" title="Homework"><svg viewBox="0 0 24 24"><path d="M9 5h6M9 3h6v4H9zM6 5H5a2 2 0 0 0-2 2v12h18V7a2 2 0 0 0-2-2h-1M8 13l2 2 5-5"></path></svg><span class="homework-label">Homework</span><span class="homework-count" id="homeworkCount">0</span></button>
       <button class="btn music-top" id="musicBtn" title="Practice Music"><svg viewBox="0 0 24 24"><path d="M9 18V5l11-2v13M9 9l11-2M6 20a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm11-1a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"></path></svg><span class="music-label">Music</span></button>
-      <button class="btn backup" id="backupBtn" title="Back up library"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 19h14"></path></svg><span class="backup-label">Backup</span></button>
-      <button class="btn primary" id="addPaperBtn"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg><span class="add-label">Add paper</span></button>
+      <button class="btn backup admin-only hidden" id="backupBtn" title="Back up library"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 19h14"></path></svg><span class="backup-label">Backup</span></button>
+      <button class="btn primary admin-only hidden" id="addPaperBtn"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg><span class="add-label">Add paper</span></button>
+      <button class="btn" id="adminBtn" title="Admin sign in"><span id="adminBtnLabel">Admin</span></button>
     </div>
   </header>
   <main class="main" id="mainView" aria-live="polite"></main>
@@ -86,6 +87,19 @@
       <div class="field"><label for="trackType">Type</label><select id="trackType"><option>Background music</option><option>Lehra</option><option>Metronome</option><option>Other</option></select></div>
       <div class="form-error" id="trackError" aria-live="polite"></div>
       <div class="modal-actions"><button type="button" class="btn danger hidden" id="deleteTrackBtn">Delete link</button><span class="spacer"></span><button type="button" class="btn" data-close="trackModal">Cancel</button><button type="submit" class="btn primary">Save link</button></div>
+    </form>
+  </div>
+</div>
+
+
+<div class="modal" id="adminModal" role="dialog" aria-modal="true" aria-labelledby="adminModalTitle">
+  <div class="modal-card admin-modal-card">
+    <div class="modal-head"><div><h2 id="adminModalTitle">Admin sign in</h2><p>Only the site owner can edit this library.</p></div><button class="close-modal" data-close="adminModal" aria-label="Close">×</button></div>
+    <form class="form" id="adminForm">
+      <div class="field"><label for="adminEmail">Email</label><input id="adminEmail" type="email" autocomplete="username" required /></div>
+      <div class="field"><label for="adminPassword">Password</label><input id="adminPassword" type="password" autocomplete="current-password" required /></div>
+      <div class="form-error" id="adminError" aria-live="polite"></div>
+      <div class="modal-actions"><span class="spacer"></span><button type="button" class="btn" data-close="adminModal">Cancel</button><button type="submit" class="btn primary">Sign in</button></div>
     </form>
   </div>
 </div>
